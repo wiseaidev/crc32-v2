@@ -1,0 +1,12 @@
+[package]
+name = "crc32-v2"
+version = "0.0.0"
+edition = "2021"
+description = "todo!();"
+repository = "https://github.com/wiseaidev/crc32-v2"
+documentation = "https://docs.rs/crc32-v2"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
