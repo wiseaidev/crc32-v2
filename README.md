@@ -21,7 +21,7 @@ cargo add crc32-v2
 
 ```rust
 use crc32_v2::crc32;
-use crc32_v2::byfour::{crc32_little, dolit32};
+use crc32_v2::byfour::crc32_little;
 
 const CRC32_INIT: u32 = 0; // Initial CRC value, you can customize it
 
@@ -40,17 +40,10 @@ fn main() {
 
     // Print the result
     println!("CRC-32 (Little Endian): {:x}", result_crc_little);
-
-    // Example for using dolit32
-    let buf4: [u32; 8] = [0, 1, 2, 3, 4, 5, 6, 7];
-    let mut c = CRC32_INIT;
-    let mut buf4pos = 0;
-    dolit32(&mut c, &buf4, &mut buf4pos);
-
-    // Print the result
-    println!("CRC-32 after dolit32: {:x}", c);
 }
-```
 
-> **Warning**<br>
-The `dolit4` and `dolit32` functions modify the input `c` and `buf4pos` in place, so you should be careful when reusing these variables for subsequent CRC calculations.
+// Output
+
+// CRC-32: ebe6c6e6
+// CRC-32 (Little Endian): a29eb9bf
+```

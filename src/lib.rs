@@ -63,7 +63,7 @@ pub mod byfour {
     use crate::crc32tables::CRC_TABLE;
 
     /* ========================================================================= */
-    pub fn dolit4(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
+    fn dolit4(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
         let c1 = *c ^ buf4[*buf4pos];
         *buf4pos += 1;
         *c = CRC_TABLE[3][(c1 & 0xff) as usize]
@@ -72,7 +72,7 @@ pub mod byfour {
             ^ CRC_TABLE[0][(c1 >> 24) as usize];
     }
 
-    pub fn dolit32(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
+    fn dolit32(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
         dolit4(c, buf4, buf4pos);
         dolit4(c, buf4, buf4pos);
         dolit4(c, buf4, buf4pos);
@@ -84,14 +84,10 @@ pub mod byfour {
     }
 
     fn slice_u8_as_u32(s8: &[u8]) -> &[u32] {
-        assert!(s8.len() % 4 == 0, "Input slice length must be a multiple of 4");
-
         let len_u32 = s8.len() / 4;
         let ptr: *const u32 = s8.as_ptr() as *const u32;
 
-        unsafe {
-            std::slice::from_raw_parts(ptr, len_u32)
-        }
+        unsafe { std::slice::from_raw_parts(ptr, len_u32) }
     }
 
     // rusti: fn slice_u8_as_u32(s8: &[u8]) -> &[u32] { let new_len = s8.len() / 4;     unsafe { let ptr: *const u32 = s8.as_ptr() as *const u32; slice::from_raw_buf(ptr, new_len) } }
@@ -114,7 +110,7 @@ pub mod byfour {
             len -= 1;
         }
 
-        let buf4 = slice_u8_as_u32(&buf[bufpos..(len - bufpos)]);
+        let buf4 = slice_u8_as_u32(&buf[bufpos..]);
         let mut buf4pos: usize = 0;
         while len >= 32 {
             dolit32(&mut c, buf4, &mut buf4pos);
