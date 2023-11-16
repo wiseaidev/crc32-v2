@@ -2,10 +2,12 @@
 name = "crc32-v2"
 version = "0.0.0"
 edition = "2021"
-description = "todo!();"
+description = "A port of the CRC-32 algorithm to Rust"
+authors = ["Mahmoud Harmouch <oss@wiseai.dev>", "Arlie Davis <arlie.davis@gmail.com>"]
 repository = "https://github.com/wiseaidev/crc32-v2"
 documentation = "https://docs.rs/crc32-v2"
 license = "MIT"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
