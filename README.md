@@ -8,7 +8,7 @@ Add `crc32-v2` to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-crc = "3.0"
+crc32-v2 = "0.0.2"
 ```
 
 or run:

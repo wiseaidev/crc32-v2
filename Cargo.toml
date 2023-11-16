@@ -1,6 +1,6 @@
 [package]
 name = "crc32-v2"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 description = "A port of the CRC-32 algorithm to Rust"
 authors = ["Mahmoud Harmouch <oss@wiseai.dev>", "Arlie Davis <arlie.davis@gmail.com>"]
