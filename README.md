@@ -10,7 +10,7 @@ Add `crc32-v2` to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-crc32-v2 = "0.0.4"
+crc32-v2 = "0.0.5"
 ```
 
 or run:
@@ -60,7 +60,7 @@ Running `cargo bench` provides the following performance insights:
 ```sh
 cargo bench
 
-   Compiling crc32-v2 v0.0.4 (/home/mahmoud/Desktop/TODO/crc32-v2)
+   Compiling crc32-v2 v0.0.5 (/home/mahmoud/Desktop/TODO/crc32-v2)
     Finished `bench` profile [optimized] target(s) in 2.06s
      Running unittests src/lib.rs (target/release/deps/crc32_v2-3c56bd9cac40bc4d)
 
