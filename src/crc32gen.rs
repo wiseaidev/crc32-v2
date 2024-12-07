@@ -91,9 +91,9 @@ pub fn write_tables(crc_table: &CrcTable) -> String {
     write_table(&mut s, &tt[0]);
     // #  ifdef BYFOUR
     s.push_str("// #ifdef BYFOUR\n");
-    for k in 1..8 {
+    for item in tt.iter().take(8).skip(1) {
         s.push_str("  ],\n [\n");
-        write_table(&mut s, &tt[k]);
+        write_table(&mut s, item);
     }
     s.push_str("// #endif\n");
     // #  endif /* BYFOUR */
@@ -103,11 +103,11 @@ pub fn write_tables(crc_table: &CrcTable) -> String {
 }
 
 fn write_table(s: &mut String, table: &[u32; 0x100]) {
-    for n in 0..0x100 {
+    for (n, item) in table.iter().enumerate().take(0x100) {
         let line = format!(
             "{}0x{:08x}{}",
             if n % 5 != 0 { "" } else { "    " },
-            table[n],
+            item,
             if n == 255 {
                 "\n"
             } else if n % 5 == 4 {

@@ -36,7 +36,6 @@
 //!
 //! It returns a `u32`, which is the CRC32 checksum of the input buffer.
 
-
 pub mod byfour;
 pub mod crc32tables;
 
@@ -58,15 +57,14 @@ use crate::crc32tables::CRC_TABLE;
 /// let crc = crc32(0, &[0u8, 1u8, 2u8, 3u8]);
 /// assert_eq!(crc, 0x8BB98613);
 /// ```
+#[inline]
 pub fn crc32(start_crc: u32, buf: &[u8]) -> u32 {
     // Initialize variables
     let len = buf.len();
-    let mut crc = start_crc;
+    // XOR with 0xffffffff as specified in CRC32 algorithm
+    let mut crc = start_crc ^ 0xffffffff;
     let mut bufpos: usize = 0;
     let mut remaining_bytes = len;
-
-    // XOR with 0xffffffff as specified in CRC32 algorithm
-    crc = crc ^ 0xffffffff;
 
     // Reference to the first CRC table for faster access
     let t0 = &CRC_TABLE[0];

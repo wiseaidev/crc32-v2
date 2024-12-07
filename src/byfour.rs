@@ -46,14 +46,9 @@ pub fn dolit4(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
 /// assert_eq!(crc, 0);
 /// ```
 pub fn dolit32(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
-    dolit4(c, buf4, buf4pos);
+    for _ in 0..8 {
+        dolit4(c, buf4, buf4pos);
+    }
 }
 
 /// This function converts a slice of u8 into a slice of u32.
@@ -75,11 +70,13 @@ pub fn dolit32(c: &mut u32, buf4: &[u32], buf4pos: &mut usize) {
 /// let u32_slice = slice_u8_as_u32(&bytes);
 /// assert_eq!(u32_slice, &[50462976u32, 117835012u32]);
 /// ```
-pub fn slice_u8_as_u32(s8: &[u8]) -> &[u32] {
-    let len_u32 = s8.len() / 4;
-    let ptr: *const u32 = s8.as_ptr() as *const u32;
-
-    unsafe { std::slice::from_raw_parts(ptr, len_u32) }
+pub fn slice_u8_as_u32(s8: &[u8]) -> Vec<u32> {
+    s8.chunks_exact(4)
+        .map(|chunk| {
+            // Convert 4-bytes chunks into a u32 value
+            u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]])
+        })
+        .collect()
 }
 
 /// This function calculates the CRC32 checksum of a byte buffer in little-endian format.
@@ -118,11 +115,11 @@ pub fn crc32_little(crc: u32, buf: &[u8]) -> u32 {
     let buf4 = slice_u8_as_u32(&buf[bufpos..]);
     let mut buf4pos: usize = 0;
     while len >= 32 {
-        dolit32(&mut c, buf4, &mut buf4pos);
+        dolit32(&mut c, &buf4, &mut buf4pos);
         len -= 32;
     }
     while len >= 4 {
-        dolit4(&mut c, buf4, &mut buf4pos);
+        dolit4(&mut c, &buf4, &mut buf4pos);
         len -= 4;
     }
 
@@ -142,6 +139,5 @@ pub fn crc32_little(crc: u32, buf: &[u8]) -> u32 {
             }
         }
     }
-    c = !c;
-    return c;
+    !c
 }
