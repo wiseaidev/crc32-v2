@@ -15,7 +15,7 @@ fn main() {
 
     let outpath = Path::new(outfile_name);
 
-    let outfile = File::create(&outpath);
+    let outfile = File::create(outpath);
 
     match outfile {
         Ok(file) => {
