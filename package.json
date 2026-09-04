@@ -1,6 +1,6 @@
 {
   "name": "crc32-rs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": {
@@ -43,5 +43,6 @@
   },
   "engines": {
     "node": ">= 22"
-  }
+  },
+  "optionalDependencies": {}
 }
