@@ -10,6 +10,7 @@
     html_favicon_url = "https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/favicon.png"
 )]
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(not(feature = "node"), forbid(unsafe_code))]
 #![doc = include_str!("../README.md")]
 
 pub mod byfour;

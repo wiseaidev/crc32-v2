@@ -10,19 +10,20 @@
 [![PyPI](https://img.shields.io/pypi/v/crc32-rs.svg)](https://pypi.org/project/crc32-rs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> `crc32-v2` is a multi-language toolkit providing the fastest port of the CRC-32 algorithm from zlib to Rust, with zero-dependency Python and Node.js native bindings 🗿.
+> `crc32-v2` is a multi-language toolkit providing the fastest port of the CRC-32 algorithm from zlib to Rust, with zero-dependency Python and Node.js native bindings written in **100% safe Rust** 🗿.
 
 Resurrecting the [`crc32`](https://crates.io/crates/crc32) crate from the ashes.
 
-|                  🦀 Rust                  |                                   🐍 Python                                    |                                 🟩 Node.js                                 |
-| :---------------------------------------: | :----------------------------------------------------------------------------: | :------------------------------------------------------------------------: |
-|           `cargo add crc32-v2`            |                             `pip install crc32-rs`                             |                           `npm install crc32-rs`                           |
+|                  🦀 Rust                  |                                  🐍 Python                                  |                               🟩 Node.js                                |
+| :---------------------------------------: | :-------------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+|           `cargo add crc32-v2`            |                           `pip install crc32-rs`                            |                         `npm install crc32-rs`                          |
 | [Documentation](https://docs.rs/crc32-v2) | [Read PYTHON.md](https://github.com/wiseaidev/crc32-v2/blob/main/PYTHON.md) | [Read NODE.md](https://github.com/wiseaidev/crc32-v2/blob/main/NODE.md) |
 
 </div>
 
 ### Features
 
+- **100% safe Rust**: `#![forbid(unsafe_code)]` is enforced crate-wide
 - **Standard byte-at-a-time `crc32`**: compatible with zlib, PKZIP, Ethernet, FDDI
 - **Four-bytes-at-a-time `crc32_little`**: slicing-by-4, ~2-4x higher throughput on large inputs
 - **Big-endian `crc32_big`**: interoperable with big-endian hardware CRC devices
@@ -160,6 +161,10 @@ Running `cargo bench` measures throughput across five payload sizes. Results on 
 > - `crc32_little` achieves ~800 MiB/s throughput for large inputs, making it over 2x faster than the simple byte-at-a-time `crc32` (~350 MiB/s), thanks to the slicing-by-4 algorithm. For tiny inputs (< 16 B), `crc32` is marginally faster due to lower alignment overhead.
 > - `crc32_big` falls back to a byte-at-a-time loop and achieves similar throughput to `crc32` (~320 MiB/s).
 > - `crc32fast` achieves ~11.6 GiB/s on x86-64 because it uses runtime-detected SIMD hardware acceleration (`pclmulqdq`). For maximum raw throughput on known hardware, prefer `crc32fast`. For pure portability, full control, or embedding in a `no_std` context without CPU feature detection overhead, use `crc32-v2`.
+
+## Safety
+
+This crate enforces a zero-unsafe policy via `#![forbid(unsafe_code)]` at the crate root. Every byte of the implementation, including table lookups, the slicing-by-4 loop, GF(2) matrix arithmetic, and the streaming `Digest`, is written in safe Rust. The compiler will reject any future `unsafe` block or `unsafe fn` introduced into the crate.
 
 ## See Also
 
