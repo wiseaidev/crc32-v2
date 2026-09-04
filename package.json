@@ -1,0 +1,51 @@
+{
+  "name": "crc32-rs",
+  "version": "0.1.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wiseaidev/crc32-v2.git"
+  },
+  "homepage": "https://github.com/wiseaidev/crc32-v2",
+  "bugs": {
+    "url": "https://github.com/wiseaidev/crc32-v2/issues"
+  },
+  "author": "Mahmoud Harmouch <oss@wiseai.dev>",
+  "license": "MIT",
+  "description": "A fast CRC-32 library for Node.js, powered by Rust.",
+  "keywords": [
+    "crc32",
+    "checksum",
+    "hash",
+    "zlib",
+    "rust",
+    "napi"
+  ],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node",
+    "README.md",
+    "LICENSE"
+  ],
+  "napi": {
+    "binaryName": "crc32",
+    "triples": {
+      "defaults": true
+    }
+  },
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release --features node",
+    "build:debug": "napi build --platform --features node",
+    "prepublishOnly": "napi prepublish -t npm",
+    "version": "napi version"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.6.2"
+  },
+  "engines": {
+    "node": ">= 22"
+  }
+}

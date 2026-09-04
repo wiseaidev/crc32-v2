@@ -1,23 +1,63 @@
 [package]
 name = "crc32-v2"
-version = "0.0.5"
-edition = "2021"
-description = "A port of the CRC-32 algorithm to Rust"
+version = "0.1.0"
+edition = "2024"
 authors = ["Mahmoud Harmouch <oss@wiseai.dev>", "Arlie Davis <arlie.davis@gmail.com>"]
-repository = "https://github.com/wiseaidev/crc32-v2"
-documentation = "https://docs.rs/crc32-v2"
+description = "A port of the CRC-32 algorithm from zlib to Rust: fast, mathematically sound, and with no mistakes."
 license = "MIT"
+homepage = "https://github.com/wiseaidev/crc32-v2"
+documentation = "https://docs.rs/crc32-v2"
+repository = "https://github.com/wiseaidev/crc32-v2"
+keywords = ["crc32", "checksum", "hash", "zlib", "crc"]
+categories = ["algorithms", "encoding"]
 build = "build.rs"
+exclude = [
+    "/tests",
+    ".*",
+    "/python",
+    "NODE.md",
+    "PYTHON.md",
+    "package.json",
+    "package-lock.json",
+    "pyproject.toml",
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
+pyo3 = { version = "0.29.2", features = ["extension-module"], optional = true }
+napi = { version = "3.12.2", default-features = false, features = ["napi4"], optional = true }
+napi-derive = { version = "3.6.3", optional = true }
+
+[build-dependencies]
+napi-build = { version = "2.4.1", optional = true }
 
 [dev-dependencies]
-bump2version = "0.1.4"
-crc32fast = "1.4.2"
+crc32fast = "1.5.1"
 criterion = { version = "0.8.2", features = ["html_reports"] }
 
 [[bench]]
 name = "benchmark"
 harness = false
+
+[features]
+default = []
+python = ["pyo3"]
+node = ["napi", "napi-derive", "napi-build"]
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+incremental = false
+
+[badges]
+maintenance = { status = "actively-developed" }
