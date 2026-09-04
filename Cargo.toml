@@ -16,7 +16,7 @@ build = "build.rs"
 [dev-dependencies]
 bump2version = "0.1.4"
 crc32fast = "1.4.2"
-criterion = { version = "0.5.1", features = ["html_reports"] }
+criterion = { version = "0.8.2", features = ["html_reports"] }
 
 [[bench]]
 name = "benchmark"
