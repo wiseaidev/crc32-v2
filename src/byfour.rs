@@ -15,7 +15,7 @@
 //!
 //! | Function | Byte order | Tables used | Best for |
 //! |----------|-----------|-------------|----------|
-//! | [`crc32_little`] | Little-endian (reflected, LSB first) | `[0]`–`[3]` | Most x86-64 CPUs |
+//! | [`crc32_little`] | Little-endian (reflected, LSB first) | `[0]`-`[3]` | Most x86-64 CPUs |
 //! | [`crc32_big`] | Big-endian (unreflected, MSB first) | `[4]` | Big-endian hardware CRC |
 //!
 //! `crc32_little` processes 32 bytes per outer loop iteration and four bytes per
@@ -26,7 +26,7 @@
 //!
 //! - [`crate::crc32`]: simple byte-at-a-time reference implementation.
 //! - [A Painless Guide to CRC Error Detection Algorithms](https://www.zlib.net/crc_v3.txt)
-//! - [zlib – crc32.c (by-four implementation)](https://github.com/madler/zlib/blob/master/crc32.c)
+//! - [zlib - crc32.c (by-four implementation)](https://github.com/madler/zlib/blob/master/crc32.c)
 
 use crate::crc32tables::CRC_TABLE;
 
@@ -196,7 +196,7 @@ pub fn slice_u8_as_u32(s8: &[u8]) -> Vec<u32> {
 ///
 /// - [`crc32_big`]: big-endian variant.
 /// - [`crate::crc32`]: simpler byte-at-a-time implementation.
-/// - [zlib – crc32.c](https://github.com/madler/zlib/blob/master/crc32.c)
+/// - [zlib - crc32.c](https://github.com/madler/zlib/blob/master/crc32.c)
 pub fn crc32_little(crc: u32, buf: &[u8]) -> u32 {
     let mut len = buf.len();
     let mut bufpos = 0usize;

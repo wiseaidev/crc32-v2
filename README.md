@@ -2,7 +2,7 @@
 
 # CRC32
 
-[![CRC32-V2 Logo](assets/logo.png)](https://github.com/wiseaidotdev/crc32-v2)
+[![CRC32-V2 Logo](https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/logo.png)](https://github.com/wiseaidev/crc32-v2)
 
 [![Crates.io](https://img.shields.io/crates/v/crc32-v2.svg)](https://crates.io/crates/crc32-v2)
 [![Docs.rs](https://docs.rs/crc32-v2/badge.svg)](https://docs.rs/crc32-v2)
@@ -17,7 +17,7 @@ Resurrecting the [`crc32`](https://crates.io/crates/crc32) crate from the ashes.
 |                  🦀 Rust                  |                                   🐍 Python                                    |                                 🟩 Node.js                                 |
 | :---------------------------------------: | :----------------------------------------------------------------------------: | :------------------------------------------------------------------------: |
 |           `cargo add crc32-v2`            |                             `pip install crc32-rs`                             |                           `npm install crc32-rs`                           |
-| [Documentation](https://docs.rs/crc32-v2) | [Read PYTHON.md](https://github.com/wiseaidotdev/crc32-v2/blob/main/PYTHON.md) | [Read NODE.md](https://github.com/wiseaidotdev/crc32-v2/blob/main/NODE.md) |
+| [Documentation](https://docs.rs/crc32-v2) | [Read PYTHON.md](https://github.com/wiseaidev/crc32-v2/blob/main/PYTHON.md) | [Read NODE.md](https://github.com/wiseaidev/crc32-v2/blob/main/NODE.md) |
 
 </div>
 
