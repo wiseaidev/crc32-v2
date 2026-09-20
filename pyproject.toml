@@ -1,11 +1,11 @@
 [build-system]
-requires = ["maturin>=1.13"]
+requires = ["maturin>=1.14.1"]
 build-backend = "maturin"
 
 [project]
 name = "crc32-rs"
 requires-python = ">=3.12"
-description = "A fast CRC-32 library for Python, powered by Rust."
+description = "⚡ A blazingly fast CRC-32 library for Python, powered by Rust."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Mahmoud Harmouch", email = "oss@wiseai.dev" }]
@@ -15,8 +15,13 @@ classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
-    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
 ]
 dynamic = ["version"]
 
@@ -28,5 +33,8 @@ Issues = "https://github.com/wiseaidev/crc32-v2/issues"
 
 [tool.maturin]
 features = ["python"]
-module-name = "crc32_v2._crc32_v2"
+module-name = "crc32_rs._crc32_v2"
 python-source = "python"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

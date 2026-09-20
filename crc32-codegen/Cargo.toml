@@ -1,0 +1,12 @@
+[package]
+name = "crc32-codegen"
+version = "0.1.0"
+edition = "2024"
+description = "Build-time CRC-32 lookup table generator for crc32-v2."
+license = "MIT"
+keywords = ["crc32", "codegen", "build-script", "tables"]
+repository = "https://github.com/wiseaidev/crc32-v2"
+documentation = "https://docs.rs/crc32-v2"
+authors = ["Mahmoud Harmouch <oss@wiseai.dev>"]
+
+[dependencies]

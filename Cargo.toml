@@ -3,13 +3,13 @@ name = "crc32-v2"
 version = "0.1.2"
 edition = "2024"
 authors = ["Mahmoud Harmouch <oss@wiseai.dev>", "Arlie Davis <arlie.davis@gmail.com>"]
-description = "A port of the CRC-32 algorithm from zlib to Rust: fast, mathematically sound, and with no mistakes."
+description = "A port of the CRC-32 algorithm from zlib to Rust."
 license = "MIT"
 homepage = "https://github.com/wiseaidev/crc32-v2"
 documentation = "https://docs.rs/crc32-v2"
 repository = "https://github.com/wiseaidev/crc32-v2"
-keywords = ["crc32", "checksum", "hash", "zlib", "crc"]
-categories = ["algorithms", "encoding"]
+keywords = ["crc32", "checksum", "hash", "zlib", "no_std"]
+categories = ["algorithms", "encoding", "no-std"]
 build = "build.rs"
 exclude = [
     "/tests",
@@ -17,11 +17,15 @@ exclude = [
     "/python",
     "/assets",
     "/benches",
+    "/benchmarks",
     "NODE.md",
     "PYTHON.md",
+    "RUST.md",
+    "PACKAGING.md",
     "package.json",
     "package-lock.json",
     "pyproject.toml",
+    "CONTRIBUTING.md",
 ]
 
 [lib]
@@ -37,29 +41,55 @@ napi = { version = "3.12.2", default-features = false, features = ["napi4"], opt
 napi-derive = { version = "3.6.3", optional = true }
 
 [build-dependencies]
+crc32-codegen = { path = "crc32-codegen" }
 napi-build = { version = "2.4.1", optional = true }
 
 [dev-dependencies]
 crc32fast = "1.5.1"
+crc = "3.4.0"
+zlib-rs = "0.6.7"
 criterion = { version = "0.8.2", features = ["html_reports"] }
+bump2version = "0.2.2"
 
 [[bench]]
 name = "benchmark"
 harness = false
 
+[[bench]]
+name = "nano_benchmark"
+harness = false
+
+[[bench]]
+name = "compare_benchmark"
+harness = false
+
 [features]
-default = []
-python = ["pyo3"]
-node = ["napi", "napi-derive", "napi-build"]
+default = ["std"]
+std = []
+python = ["pyo3", "std"]
+node = ["napi", "napi-derive", "napi-build", "std"]
+
+[profile.dev]
+panic = "abort"
 
 [profile.release]
 opt-level = 3
+
 debug = false
-lto = "thin"
+lto = "fat"
 codegen-units = 1
 panic = "abort"
 strip = "symbols"
 incremental = false
+overflow-checks = false
+
+[profile.bench]
+opt-level = 3
+debug = false
+lto = "fat"
+codegen-units = 1
+incremental = false
+overflow-checks = false
 
 [badges]
 maintenance = { status = "actively-developed" }

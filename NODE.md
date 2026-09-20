@@ -1,7 +1,7 @@
-# CRC32 Node.js Documentation 🟩
+# CRC32 Node.js Bindings 🟩
 
 The **`crc32-rs`** module provides fast, native CRC-32 functions for Node.js,
-via [napi-rs](https://napi.rs). All functions are **synchronous** - no Promises required.
+via [napi-rs](https://napi.rs). All functions are **synchronous**, no Promises required.
 
 ## 📦 Installation
 
@@ -18,12 +18,6 @@ napi build --platform --release --features node
 
 ## 🛠 Usage Overview
 
-Enter the node interpreter:
-
-```sh
-node
-```
-
 ### One-shot checksum
 
 ```javascript
@@ -35,7 +29,7 @@ const checksum = crc32(Buffer.from("Hello, world!"));
 console.log(checksum.toString(16)); // ebe6c6e6
 ```
 
-Chain multiple buffers by passing the previous result:
+Chain multiple buffers:
 
 ```javascript
 // If installed via npm: const { crc32 } = require('crc32-rs');
@@ -46,7 +40,7 @@ let crc = crc32(Buffer.from("Hello, "));
 crc = crc32(Buffer.from("world!"), crc);
 ```
 
-### Four-bytes-at-a-time (higher throughput for large data)
+### Slicing-by-4 (higher throughput)
 
 ```javascript
 // If installed via npm: const { crc32Little } = require('crc32-rs');
@@ -57,6 +51,29 @@ const checksum = crc32Little(Buffer.from("Hello, world!"));
 console.log(checksum.toString(16)); // ebe6c6e6
 ```
 
+### Slicing-by-8 (~2.3 GiB/s for large buffers)
+
+```javascript
+// If installed via npm: const { crc32Little8 } = require('crc32-rs');
+// For local development:
+const { crc32Little8 } = require(".");
+
+const checksum = crc32Little8(Buffer.from("Hello, world!"));
+console.log(checksum.toString(16)); // ebe6c6e6
+```
+
+### Slicing-by-16 (fastest pure-software path, ~3.2 GiB/s)
+
+```javascript
+// If installed via npm: const { crc32Little16 } = require('crc32-rs');
+// For local development:
+const { crc32Little16 } = require(".");
+
+const data = Buffer.alloc(1_048_576, 0xab);
+const checksum = crc32Little16(data);
+console.log(checksum.toString(16));
+```
+
 ### Big-endian variant
 
 ```javascript
@@ -65,7 +82,7 @@ console.log(checksum.toString(16)); // ebe6c6e6
 const { crc32Big } = require(".");
 
 const checksum = crc32Big(Buffer.from("Hello, world!"));
-console.log(checksum.toString(16)); // ebe6c6e6
+console.log(checksum.toString(16));
 ```
 
 ### Streaming checksum with `Digest`
@@ -91,7 +108,7 @@ const { crc32, Digest } = require(".");
 const existing = crc32(Buffer.from("prefix:"));
 const d = new Digest(existing);
 d.update(Buffer.from(" suffix"));
-console.log(d.finalize().toString(16)); // 50a75a0d
+console.log(d.finalize().toString(16));
 ```
 
 ### Combining two checksums
@@ -103,19 +120,21 @@ const { crc32, crc32Combine } = require(".");
 
 const crc1 = crc32(Buffer.from("Hello, "));
 const crc2 = crc32(Buffer.from("world!"));
-const combined = crc32Combine(crc1, crc2, Buffer.from("world!").length); // 3957769958
+const combined = crc32Combine(crc1, crc2, Buffer.from("world!").length);
 ```
 
 ## 📖 API Reference
 
 ### Functions
 
-| Function                         | Description                               |
-| -------------------------------- | ----------------------------------------- |
-| `crc32(data, initialCrc?)`       | Standard byte-at-a-time CRC-32            |
-| `crc32Little(data, initialCrc?)` | Four-bytes-at-a-time little-endian CRC-32 |
-| `crc32Big(data, initialCrc?)`    | Four-bytes-at-a-time big-endian CRC-32    |
-| `crc32Combine(crc1, crc2, len2)` | Combine two independent CRC-32 values     |
+| Function                           | Description                              |
+| ---------------------------------- | ---------------------------------------- |
+| `crc32(data, initialCrc?)`         | Byte-at-a-time CRC-32 (~350 MiB/s)       |
+| `crc32Little(data, initialCrc?)`   | Slicing-by-4 little-endian (~1.3 GiB/s)  |
+| `crc32Little8(data, initialCrc?)`  | Slicing-by-8 little-endian (~2.3 GiB/s)  |
+| `crc32Little16(data, initialCrc?)` | Slicing-by-16 little-endian (~3.2 GiB/s) |
+| `crc32Big(data, initialCrc?)`      | Big-endian (unreflected) CRC-32          |
+| `crc32Combine(crc1, crc2, len2)`   | Combine two independent CRC-32 values    |
 
 All functions return `number` (unsigned 32-bit integer).
 
@@ -130,6 +149,7 @@ All functions return `number` (unsigned 32-bit integer).
 
 ## 🔗 See Also
 
+- [BENCHMARKS.md](https://github.com/wiseaidev/crc32-v2/blob/main/BENCHMARKS.md): Full benchmark methodology
 - [A Painless Guide to CRC Error Detection Algorithms](https://www.zlib.net/crc_v3.txt)
 - [docs.rs/crc32-v2](https://docs.rs/crc32-v2)
 - [napi-rs documentation](https://napi.rs)

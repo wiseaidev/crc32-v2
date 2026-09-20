@@ -7,16 +7,17 @@
 
 //! # CRC-32 Benchmarks
 //!
-//! Measures throughput (MB/s) and latency across multiple input sizes and
-//! algorithm variants. Run with:
+//! Measures throughput (MiB/s and GiB/s) and latency (ns/op) across multiple
+//! input sizes and all algorithm variants including comparisons against
+//! `crc32fast` and the `crc` crate. Run with:
 //!
 //! ```sh
-//! cargo bench
+//! cargo bench --bench benchmark
 //! ```
 //!
 //! HTML reports are written to `target/criterion/`.
 
-use crc32_v2::byfour::{crc32_big, crc32_little};
+use crc32_v2::byfour::{crc32_big, crc32_little, crc32_little_8, crc32_little_16};
 use crc32_v2::{Digest, crc32};
 use crc32fast::Hasher;
 use criterion::{BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
@@ -52,6 +53,38 @@ fn bench_crc32_little(c: &mut Criterion) {
             BenchmarkId::new("crc32_v2::crc32_little", size),
             &data,
             |b, d| b.iter(|| crc32_little(black_box(0), black_box(d))),
+        );
+    }
+
+    group.finish();
+}
+
+fn bench_crc32_little_8(c: &mut Criterion) {
+    let mut group = c.benchmark_group("crc32_little_8");
+
+    for &size in SIZES {
+        let data = generate_data(size);
+        group.throughput(Throughput::Bytes(size as u64));
+        group.bench_with_input(
+            BenchmarkId::new("crc32_v2::crc32_little_8", size),
+            &data,
+            |b, d| b.iter(|| crc32_little_8(black_box(0), black_box(d))),
+        );
+    }
+
+    group.finish();
+}
+
+fn bench_crc32_little_16(c: &mut Criterion) {
+    let mut group = c.benchmark_group("crc32_little_16");
+
+    for &size in SIZES {
+        let data = generate_data(size);
+        group.throughput(Throughput::Bytes(size as u64));
+        group.bench_with_input(
+            BenchmarkId::new("crc32_v2::crc32_little_16", size),
+            &data,
+            |b, d| b.iter(|| crc32_little_16(black_box(0), black_box(d))),
         );
     }
 
@@ -117,12 +150,42 @@ fn bench_crc32fast(c: &mut Criterion) {
     group.finish();
 }
 
+fn bench_all_variants_comparison(c: &mut Criterion) {
+    let mut group = c.benchmark_group("all_variants");
+
+    for &size in SIZES {
+        let data = generate_data(size);
+        group.throughput(Throughput::Bytes(size as u64));
+
+        group.bench_with_input(BenchmarkId::new("crc32", size), &data, |b, d| {
+            b.iter(|| crc32(black_box(0), black_box(d)))
+        });
+        group.bench_with_input(BenchmarkId::new("crc32_little", size), &data, |b, d| {
+            b.iter(|| crc32_little(black_box(0), black_box(d)))
+        });
+        group.bench_with_input(BenchmarkId::new("crc32_little_8", size), &data, |b, d| {
+            b.iter(|| crc32_little_8(black_box(0), black_box(d)))
+        });
+        group.bench_with_input(BenchmarkId::new("crc32_little_16", size), &data, |b, d| {
+            b.iter(|| crc32_little_16(black_box(0), black_box(d)))
+        });
+        group.bench_with_input(BenchmarkId::new("crc32fast", size), &data, |b, d| {
+            b.iter(|| crc32fast::hash(black_box(d)))
+        });
+    }
+
+    group.finish();
+}
+
 criterion_group!(
     benches,
     bench_crc32,
     bench_crc32_little,
+    bench_crc32_little_8,
+    bench_crc32_little_16,
     bench_crc32_big,
     bench_digest,
     bench_crc32fast,
+    bench_all_variants_comparison,
 );
 criterion_main!(benches);
