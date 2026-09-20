@@ -5,7 +5,9 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use crc32_v2::byfour::{crc32_big, crc32_little, dolit4, dolit32, slice_u8_as_u32};
+use crc32_v2::byfour::{
+    crc32_big, crc32_little, crc32_little_8, crc32_little_16, dolit4, dolit32, slice_u8_as_u32,
+};
 use crc32_v2::{Digest, crc32, crc32_combine};
 
 const HELLO_WORLD: &[u8] = b"Hello, world!";
@@ -252,4 +254,84 @@ fn test_slice_u8_as_u32_truncates_trailing() {
 #[test]
 fn test_crc32_standard_check_value() {
     assert_eq!(crc32(0, b"123456789"), 0xCBF4_3926);
+}
+
+#[test]
+fn test_crc32_little_8_matches_crc32fast_known() {
+    assert_eq!(crc32_little_8(0, &[0u8, 1u8, 2u8, 3u8]), 0x8BB9_8613);
+    assert_eq!(crc32_little_8(0, HELLO_WORLD), crc32fast::hash(HELLO_WORLD));
+    assert_eq!(crc32_little_8(0, b"123456789"), 0xCBF4_3926);
+}
+
+#[test]
+fn test_crc32_little_8_empty() {
+    assert_eq!(crc32_little_8(0, &[]), 0);
+}
+
+#[test]
+fn test_crc32_little_8_matches_little_all_sizes() {
+    for size in [
+        1, 4, 7, 8, 15, 16, 31, 32, 63, 64, 127, 128, 255, 256, 1023, 1024, 65536,
+    ] {
+        let data: Vec<u8> = (0u8..=255).cycle().take(size).collect();
+        assert_eq!(
+            crc32_little_8(0, &data),
+            crc32fast::hash(&data),
+            "size={size}"
+        );
+    }
+}
+
+#[test]
+fn test_crc32_little_8_chaining() {
+    let full = crc32_little_8(0, HELLO_WORLD);
+    let chained = crc32_little_8(crc32_little_8(0, b"Hello, "), b"world!");
+    assert_eq!(full, chained);
+}
+
+#[test]
+fn test_crc32_little_16_matches_crc32fast_known() {
+    assert_eq!(crc32_little_16(0, &[0u8, 1u8, 2u8, 3u8]), 0x8BB9_8613);
+    assert_eq!(
+        crc32_little_16(0, HELLO_WORLD),
+        crc32fast::hash(HELLO_WORLD)
+    );
+    assert_eq!(crc32_little_16(0, b"123456789"), 0xCBF4_3926);
+}
+
+#[test]
+fn test_crc32_little_16_empty() {
+    assert_eq!(crc32_little_16(0, &[]), 0);
+}
+
+#[test]
+fn test_crc32_little_16_matches_little_all_sizes() {
+    for size in [
+        1, 4, 7, 8, 15, 16, 31, 32, 63, 64, 127, 128, 255, 256, 511, 512, 1023, 1024, 65536,
+        1_048_576,
+    ] {
+        let data: Vec<u8> = (0u8..=255).cycle().take(size).collect();
+        assert_eq!(
+            crc32_little_16(0, &data),
+            crc32fast::hash(&data),
+            "size={size}"
+        );
+    }
+}
+
+#[test]
+fn test_crc32_little_16_chaining() {
+    let full = crc32_little_16(0, HELLO_WORLD);
+    let chained = crc32_little_16(crc32_little_16(0, b"Hello, "), b"world!");
+    assert_eq!(full, chained);
+}
+
+#[test]
+fn test_all_variants_agree_large_buffer() {
+    let data: Vec<u8> = (0u8..=255).cycle().take(1_048_576).collect();
+    let expected = crc32fast::hash(&data);
+    assert_eq!(crc32(0, &data), expected);
+    assert_eq!(crc32_little(0, &data), expected);
+    assert_eq!(crc32_little_8(0, &data), expected);
+    assert_eq!(crc32_little_16(0, &data), expected);
 }
