@@ -252,7 +252,7 @@ version = "0.1.0"
 
 [[package]]
 name = "crc32-v2"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "bump2version",
  "crc",
