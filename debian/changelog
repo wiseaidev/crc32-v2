@@ -1,4 +1,4 @@
-crc32-v2 (0.1.2-1) unstable; urgency=medium
+crc32-v2 (0.2.0-1) unstable; urgency=medium
 
   * Initial release.
   * CRC-32 byte-at-a-time, slicing-by-4/8/16 algorithms.

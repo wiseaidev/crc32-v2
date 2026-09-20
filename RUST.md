@@ -8,7 +8,7 @@ implementation with slicing-by-4/8/16 high-throughput variants, a streaming
 
 ```toml
 [dependencies]
-crc32-v2 = "0.1.2"
+crc32-v2 = "0.2.0"
 ```
 
 ## 🗂 Module Structure

@@ -10,7 +10,7 @@
 #![cfg_attr(feature = "std", doc = include_str!("../README.md"))]
 #![cfg_attr(feature = "std", doc = include_str!("../RUST.md"))]
 #![doc(
-    html_logo_url = "https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/logo.png",
+    html_logo_url = "https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/new-logo.png",
     html_favicon_url = "https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/favicon.png"
 )]
 #![cfg_attr(docsrs, feature(doc_cfg))]

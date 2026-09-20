@@ -2,7 +2,7 @@
 
 # ⚡ CRC32-V2
 
-[![CRC32-V2 Logo](https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/logo.png)](https://github.com/wiseaidev/crc32-v2)
+[![CRC32-V2 Logo](https://raw.githubusercontent.com/wiseaidev/crc32-v2/refs/heads/main/assets/new-logo.png)](https://github.com/wiseaidev/crc32-v2)
 
 [![Crates.io](https://img.shields.io/crates/v/crc32-v2.svg)](https://crates.io/crates/crc32-v2)
 [![Docs.rs](https://docs.rs/crc32-v2/badge.svg)](https://docs.rs/crc32-v2)
@@ -113,7 +113,7 @@ let bytes: [u8; 4] = digest.digest();            // [0xEB, 0xE6, 0xC6, 0xE6]
 
 ```toml
 [dependencies]
-crc32-v2 = { version = "0.1.2", default-features = false }
+crc32-v2 = { version = "0.2.0", default-features = false }
 ```
 
 ```rust,ignore
