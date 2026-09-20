@@ -1,10 +1,31 @@
 [bumpversion]
-current_version = 0.1.2
+current_version = "0.1.2"
+commit = true
 
 [bumpversion:file:Cargo.toml]
 search = version = "{current_version}"
 replace = version = "{new_version}"
 
+[bumpversion:file:package.json]
+search = "version": "{current_version}"
+replace = "version": "{new_version}"
+
 [bumpversion:file:README.md]
-search = crc32-v2 = "{current_version}"
-replace = crc32-v2 = "{new_version}"
+search = "{current_version}"
+replace = "{new_version}"
+
+[bumpversion:file:RUST.md]
+search = "{current_version}"
+replace = "{new_version}"
+
+[bumpversion:file:PACKAGING.md]
+search = {current_version}
+replace = {new_version}
+
+[bumpversion:file:rpm/crc32-v2.spec]
+search = Version:        {current_version}
+replace = Version:        {new_version}
+
+[bumpversion:file:debian/changelog]
+search = crc32-v2 ({current_version}-1)
+replace = crc32-v2 ({new_version}-1)

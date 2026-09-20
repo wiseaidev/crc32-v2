@@ -1,0 +1,9 @@
+crc32-v2 (0.1.2-1) unstable; urgency=medium
+
+  * Initial release.
+  * CRC-32 byte-at-a-time, slicing-by-4/8/16 algorithms.
+  * Zero-alloc hot path, fat LTO, codegen-units=1.
+  * Python (crc32-rs) and Node.js (crc32-rs) native bindings.
+  * crc32-codegen build-time table generation subcrate.
+
+ -- Mahmoud Harmouch <oss@wiseai.dev>  Sat, 20 Sep 2026 08:00:00 +0000
