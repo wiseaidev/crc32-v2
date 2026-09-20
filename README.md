@@ -113,7 +113,7 @@ let bytes: [u8; 4] = digest.digest();            // [0xEB, 0xE6, 0xC6, 0xE6]
 
 ```toml
 [dependencies]
-crc32-v2 = { version = "0.1.2", default-features = false }
+crc32-v2 = { version = "0.2.0", default-features = false }
 ```
 
 ```rust,ignore
