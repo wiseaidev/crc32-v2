@@ -29,7 +29,7 @@ cp target/release/libcrc32_v2.so %{buildroot}%{_libdir}/ 2>/dev/null || true
 %{_libdir}/libcrc32_v2.so
 
 %changelog
-* Sat Sep 20 2026 Mahmoud Harmouch <oss@wiseai.dev> - 0.1.2-1
+* Sun Sep 20 2026 Mahmoud Harmouch <oss@wiseai.dev> - 0.1.2-1
 - Initial RPM release.
 - Slicing-by-16 for ~1.3 GiB/s throughput.
 - Zero-alloc hot path with fat LTO.
